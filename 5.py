@@ -1,15 +1,18 @@
 #%%
 lines = open("Input/5.txt", "r").readlines()
 
-split_idx = next(i for i,line in enumerate(lines) if "1" in line) 
-stacks = [[], [], [], [], [], [], [], [], []]
+split_idx = next(i for i,line in enumerate(lines) if "1" in line)
+stacks = [[] for _ in range(9)]
+
 for line in reversed(lines[:split_idx]):
     for i, c in enumerate(line[1::4]):
         if c != " ":
-            stacks[i].append(c) 
+            stacks[i].append(c)
+
 instructions = [[int(x) for x in line.replace("move ", "").replace(" from ", ",").replace(" to ", ",").split(",")] for line in lines[split_idx+2:]]
 
-for (n, s, t) in instructions: 
+for (n, s, t) in instructions:
+    # Move the top n items from stack s to stack t
     stacks[t-1].extend(stacks[s-1][-n:])
     stacks[s-1] = stacks[s-1][:-n]
 
