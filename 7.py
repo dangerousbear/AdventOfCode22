@@ -1,31 +1,30 @@
 #%%
 lines = open("Input/7.txt", "r").readlines()
 
-files = dict()
+tree = dict()
 path = ""
 for line in lines:
     line = line.strip("\n")
     if (line[:4] == "$ cd"):
-        new = line[5:]
-        if (new == "/"):
+        d = line[5:]
+        if (d == "/"):
             path = "/"
-        elif new == "..":
+        elif d == "..":
             path = path[:1+path[:-1].rfind("/")]
         else:
-            path += new + "/"
+            path += d + "/"
     elif line[0] != "$":
         (v, name) = line.split()
-        files[path+name] =  int(v) if v != "dir" else -1
+        tree[path+name] =  int(v) if v != "dir" else -1
 
 
-def size_all_sub_files(d): #Ugly, but works
-    return sum(s for fp, s in files.items() if d in fp and len(fp) > len(d) and s > 0)
+def size_all_sub_files(d): # Sum all files whose search path starts with d. Ugly, but works
+    return sum(s for fp, s in tree.items() if d in fp and s > 0)
 
 needed = 30000000 - (70000000 - size_all_sub_files("/"))
 ans = 1e10
-for fp, s in files.items():
-    if s < 0:
-        s = size_all_sub_files(fp)
+for fp, s in filter(lambda t : t[1] < 0, tree.items()):
+    s = size_all_sub_files(fp)
     if (s >= needed and s < ans):
         ans = s
 
