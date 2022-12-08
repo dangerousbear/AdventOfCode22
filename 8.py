@@ -14,4 +14,4 @@ vl = lambda arr,h : next((i+1 for i, x in enumerate(arr) if x >= h), len(arr))
 # Product of N, W, S, E view lengths for height h
 sight_prod = lambda r,c,h : vl(f[:r, c][::-1],h) * vl((f[r, :c])[::-1],h) * vl(f[r, c+1:],h) * vl(f[r+1:, c],h)
 
-print("Answer", max( sight_prod(r,c, f[r,c]) for r in range(1, Nr-1) for c in range(1, Nc-1)))
+print("Answer", max( sight_prod(r,c, f[r,c]) for r in range(Nr) for c in range(Nc)))
