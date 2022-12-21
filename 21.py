@@ -19,7 +19,7 @@ while True:
             goods.append(v)
         except:
             bads.append(v)
-        inp = bads
+    inp = bads
     if len(bads) == 0:
         break
 
